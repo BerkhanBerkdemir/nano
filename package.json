@@ -10,8 +10,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "axios": "^0.22.0",
-    "big.js": "^6.1.1"
+    "axios": "^0.22.0"
   },
   "deprecated": false,
   "description": "A super simple NANO crypto currency blockchain API.",
@@ -29,6 +28,6 @@
     "jest": "^27.3.1"
   },
   "scripts": {
-    "test": "node test/index.js"
+    "test": "jest"
   }
 }

@@ -1,15 +1,10 @@
 const Axios = require('axios');
 const Convert = require('./utilities/convert');
+const Converter = require('./helpers/converter');
 
 const Nano = {
 
   url: 'https://api.nano.to',
-
-  /**
-     * Big Number Conversion API
-     * */
-  toRaw: Convert.toRaw,
-  fromRaw: Convert.fromRaw,
 
   /**
      * Live Price (CoinMarketCap)
@@ -23,7 +18,7 @@ const Nano = {
 
     if (typeof config === 'object' && (config.apiKey || config.key)) {
       const headers = { headers: { 'X-CMC_PRO_API_KEY': config.apiKey || config.key } };
-      let price = await server.http.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${symbol}${currency !== 'USD' ? `&convert=${currency}` : ''}`, headers);
+      const price = await server.http.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${symbol}${currency !== 'USD' ? `&convert=${currency}` : ''}`, headers);
 
       data = {
         symbol: symbol.toUpperCase(),
@@ -32,7 +27,7 @@ const Nano = {
         timestamp: price.data.status.timestamp,
       };
     } else {
-      let price = await Axios.get(`https://api.nano.to/price?symbol=${symbol}&currency=${currency}`);
+      const price = await Axios.get(`https://api.nano.to/price?symbol=${symbol}&currency=${currency}`);
       data = price.data;
     }
 
@@ -57,7 +52,7 @@ const Nano = {
     if (!address) return new Error('First parameter, NANO Address is missing.');
 
     const pending = await Axios.get(
-      `${Nano.url}/pending/${address}`, { maxContentLength: 52428890 }
+      `${Nano.url}/pending/${address}`, { maxContentLength: 52428890 },
     );
 
     return pending.data;
